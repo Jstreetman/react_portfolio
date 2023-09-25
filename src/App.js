@@ -1,4 +1,6 @@
+import Navbar from "./Components/Navbar";
+
 function App() {
-  return <div>Welcome to React</div>;
+  return <Navbar />;
 }
 export default App;
