@@ -1,7 +1,8 @@
 import logo from "./logo.svg";
+import Navbar from "./Components/Navbar";
 
 function App() {
-  return <div className="App">Welcome to react</div>;
+  return <Navbar />;
 }
 
 export default App;
