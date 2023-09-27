@@ -17,7 +17,7 @@ function Navbar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar color="primary" position="static">
         <ToolBar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
             Portfolio
           </Typography>
           <Button color="inherit">Home</Button>
