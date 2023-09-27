@@ -26,7 +26,7 @@ function Showcase() {
               </h1>
               <p className="lead my-4">
                 {" "}
-                <span className="text-warning">Sample Text</span> with{" "}
+                <span className="text-warning">FullStack</span>{" "}
               </p>
               <Button
                 color="secondary"
@@ -37,7 +37,7 @@ function Showcase() {
                 Visit My Website
               </Button>
             </div>
-            <img
+            <Avatar
               className="img-fluid rounded-circle h-25 w-25 d-none d-sm-block"
               src={profile}
               alt="profile"
