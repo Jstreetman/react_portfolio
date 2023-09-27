@@ -15,9 +15,19 @@ function App() {
     <div>
       <Navbar />
       <Showcase />
-      <Card image={cardInfo[0].image} alt={cardInfo[0].alt} />
-      <Card image={cardInfo[0].image} alt={cardInfo[0].alt} />
-      <Card image={cardInfo[0].image} alt={cardInfo[0].alt} />
+      <div className="container">
+        <div className="row row-cols-1 row-cols-md-3 g-3">
+          <div className="col">
+            <Card image={cardInfo[0].image} alt={cardInfo[0].alt} />
+          </div>
+          <div className="col">
+            <Card image={cardInfo[0].image} alt={cardInfo[0].alt} />
+          </div>
+          <div className="col">
+            <Card image={cardInfo[0].image} alt={cardInfo[0].alt} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
