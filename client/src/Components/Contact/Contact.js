@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { TextField, Container, Stack, Card } from "@mui/material";
-import { Link } from "react-router-dom";
-import { Form } from "semantic-ui-react";
-import { Button } from "semantic-ui-react";
-
+import { Card, Container, TextField, Button, Typography } from "@mui/material";
 import Header from "@mui/material/CardHeader";
-import "bootstrap/dist/css/bootstrap.css";
+import axios from "axios";
 
 function Contact() {
-  const [formData, setFormData] = useState({});
   useEffect(() => {
     const textArea = document.getElementById("message");
     const charCount = document.getElementById("charCount");
@@ -33,76 +28,119 @@ function Contact() {
         textArea.value = textArea.value.slice(0, maxChars); // Truncate input
       }
     });
-  });
+  }, []);
 
-  const handleSubmit = (e) => {
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    number: "",
+    message: "",
+  });
+  const [message, setMessage] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    try {
+      const response = await axios.post("/api/admin/contact", formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.status === 201) {
+        setMessage("Sent!");
+        // Clear form fields if registration is successful
+        setFormData({
+          username: "",
+          email: "",
+          number: "",
+          message: "",
+        });
+      } else {
+        setMessage(response.data.message);
+      }
+    } catch (error) {
+      console.error("error:", error);
+    }
   };
 
   return (
     <section className="p-5" id="contact">
       <div className="container">
         <Card className="bg-dark ">
-          <Header title="Contact" className="text-center text-light"></Header>
+          <Header title="Contact" className="text-center text-light" />
         </Card>
 
-        <Card className="p-5 ">
-          <Form action="POST" onSubmit={handleSubmit}>
-            <label className="text-dark mb-3">Name</label>
+        <form className="p-5 card">
+          <form onSubmit={handleSubmit} error={!!message}>
             <TextField
               type="text"
-              variant="outlined"
               color="primary"
               label="Name"
               fullWidth
-              name="name"
+              onChange={handleChange}
+              name="username"
+              value={formData.username}
               required
             />
-            <label className="text-dark mt-3">Email</label>
             <TextField
               className="mt-3"
               type="email"
-              variant="outlined"
-              color="primary"
+              onChange={handleChange}
+              value={formData.email}
               label="Email"
               fullWidth
               name="email"
               required
             />
-            <label className="text-dark mt-3">Number</label>
             <TextField
               className="mt-3"
               type="number"
-              variant="outlined"
-              color="primary"
               label="Number"
+              onChange={handleChange}
+              value={formData.number}
               name="number"
               id="number"
               fullWidth
               required
             />
-            <label className="text-dark mt-3">Message</label>
 
-            <textarea
-              className="mt-3 w-100 form-control border-dark"
+            <TextField
+              className="mt-3  border-dark"
               type="text"
               color="primary"
-              cols="20"
-              rows="4"
+              multiline
+              rows={4}
               id="message"
+              onChange={handleChange}
+              value={formData.message}
               name="message"
+              label="Message"
               placeholder="Message..."
-              maxLength="500"
+              fullWidth
+              variant="outlined"
               required
             />
-            <span id="charCount">0 / 500</span>
-          </Form>
-          <Button className="btn mt-3 bg-dark text-light" type="submit">
-            Submit
-          </Button>
-        </Card>
+            <Typography id="charCount">0 / 500</Typography>
+            <Button
+              className="btn mt-3 bg-dark text-light container-fluid"
+              type="submit"
+              variant="contained"
+            >
+              Submit
+            </Button>
+          </form>
+          {message && <Typography color="error">{message}</Typography>}
+        </form>
       </div>
     </section>
   );
 }
+
 export default Contact;
