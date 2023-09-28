@@ -6,6 +6,31 @@ import Header from "@mui/material/CardHeader";
 import "bootstrap/dist/css/bootstrap.css";
 
 function Contact() {
+  const textArea = document.getElementById("message");
+  const charCount = document.getElementById("charCount");
+  const maxChars = 500; // Set your desired maximum character limit
+  // Get the input element by its ID
+  var numberInput = document.getElementById("number");
+
+  // Add an event listener to the input element
+  numberInput.addEventListener("input", function () {
+    // Remove any non-numeric characters
+    this.value = this.value.replace(/[^0-9]/g, "");
+
+    // Limit the input to a maximum of 10 characters
+    if (this.value.length > 10) {
+      this.value = this.value.slice(0, 10);
+    }
+  });
+  textArea.addEventListener("input", () => {
+    const currentChars = textArea.value.length;
+    charCount.textContent = `${currentChars} / ${maxChars}`;
+
+    if (currentChars > maxChars) {
+      textArea.value = textArea.value.slice(0, maxChars); // Truncate input
+    }
+  });
+
   return (
     <section className="p-5" id="contact">
       <div className="container">
@@ -44,19 +69,33 @@ function Contact() {
               color="primary"
               label="Number"
               name="number"
+              id="number"
               fullWidth
               required
             />
+            <label className="text-dark mt-3">Message</label>
+
             <textarea
-              className="mt-3 w-100"
+              className="mt-3 w-100 form-control border-dark"
               type="text"
               color="primary"
+              cols="20"
+              rows="4"
+              id="message"
               name="message"
-              placeholder="Message No more than 250 Characters"
-              maxLength="250"
+              placeholder="Message..."
+              maxLength="500"
               required
             />
+            <span id="charCount">0 / 500</span>
           </Form>
+          <Button
+            className="mt-3 container-fluid"
+            color="primary"
+            variant="contained"
+          >
+            Submit
+          </Button>
         </Card>
       </div>
     </section>
