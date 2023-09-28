@@ -1,35 +1,43 @@
-import { TextField, Button, Container, Stack, Card } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { TextField, Container, Stack, Card } from "@mui/material";
 import { Link } from "react-router-dom";
 import { Form } from "semantic-ui-react";
+import { Button } from "semantic-ui-react";
 
 import Header from "@mui/material/CardHeader";
 import "bootstrap/dist/css/bootstrap.css";
 
 function Contact() {
-  const textArea = document.getElementById("message");
-  const charCount = document.getElementById("charCount");
-  const maxChars = 500; // Set your desired maximum character limit
-  // Get the input element by its ID
-  var numberInput = document.getElementById("number");
+  const [formData, setFormData] = useState({});
+  useEffect(() => {
+    const textArea = document.getElementById("message");
+    const charCount = document.getElementById("charCount");
+    const maxChars = 500; // Set your desired maximum character limit
+    // Get the input element by its ID
+    var numberInput = document.getElementById("number");
+    // Add an event listener to the input element
+    numberInput.addEventListener("input", function () {
+      // Remove any non-numeric characters
+      this.value = this.value.replace(/[^0-9]/g, "");
 
-  // Add an event listener to the input element
-  numberInput.addEventListener("input", function () {
-    // Remove any non-numeric characters
-    this.value = this.value.replace(/[^0-9]/g, "");
+      // Limit the input to a maximum of 10 characters
+      if (this.value.length > 10) {
+        this.value = this.value.slice(0, 10);
+      }
+    });
+    textArea.addEventListener("input", () => {
+      const currentChars = textArea.value.length;
+      charCount.textContent = `${currentChars} / ${maxChars}`;
 
-    // Limit the input to a maximum of 10 characters
-    if (this.value.length > 10) {
-      this.value = this.value.slice(0, 10);
-    }
+      if (currentChars > maxChars) {
+        textArea.value = textArea.value.slice(0, maxChars); // Truncate input
+      }
+    });
   });
-  textArea.addEventListener("input", () => {
-    const currentChars = textArea.value.length;
-    charCount.textContent = `${currentChars} / ${maxChars}`;
 
-    if (currentChars > maxChars) {
-      textArea.value = textArea.value.slice(0, maxChars); // Truncate input
-    }
-  });
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
 
   return (
     <section className="p-5" id="contact">
@@ -39,7 +47,7 @@ function Contact() {
         </Card>
 
         <Card className="p-5 ">
-          <Form>
+          <Form action="POST" onSubmit={handleSubmit}>
             <label className="text-dark mb-3">Name</label>
             <TextField
               type="text"
@@ -89,11 +97,7 @@ function Contact() {
             />
             <span id="charCount">0 / 500</span>
           </Form>
-          <Button
-            className="mt-3 container-fluid"
-            color="primary"
-            variant="contained"
-          >
+          <Button className="btn mt-3 bg-dark text-light" type="submit">
             Submit
           </Button>
         </Card>
