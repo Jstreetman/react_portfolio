@@ -31,6 +31,7 @@ function Showcase() {
               <Button
                 color="secondary"
                 variant="outlined"
+                target="_blank"
                 onClick={handleClick}
                 endIcon={<AccountCircleIcon />}
               >

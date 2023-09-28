@@ -2,6 +2,7 @@ import Navbar from "./Components/Navbar";
 import Showcase from "./Components/Showcase";
 import Card from "./Components/Cards/Card";
 import About from "./Components/AboutCards/About";
+import Contact from "./Components/Contact/Contact";
 import placeHolder from "./Components/images/placeholder.svg";
 import "./Components/App.css";
 
@@ -31,6 +32,7 @@ function App() {
         </div>
       </div>
       <About />
+      <Contact />
     </div>
   );
 }
