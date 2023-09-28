@@ -13,9 +13,6 @@ import "bootstrap/dist/css/bootstrap.css";
 const primary = red[500];
 
 function Navbar() {
-  const handleClick = () => {
-    window.location.href = "#projects";
-  };
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar color="primary" position="static">
@@ -23,12 +20,18 @@ function Navbar() {
           <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
             Portfolio
           </Typography>
-          <Button color="inherit">Home</Button>
-          <Button color="inherit" onClick={handleClick}>
+          <Button color="inherit" href="#">
+            Home
+          </Button>
+          <Button color="inherit" href="#projects">
             Projects
           </Button>
-          <Button color="inherit">About</Button>
-          <Button color="inherit">Contact</Button>
+          <Button color="inherit" href="#about">
+            About
+          </Button>
+          <Button color="inherit" href="#contact">
+            Contact
+          </Button>
         </ToolBar>
       </AppBar>
     </Box>

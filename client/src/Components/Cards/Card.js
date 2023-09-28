@@ -11,22 +11,28 @@ import "../Showcase.css";
 function Card(props) {
   return (
     <section className="p-5 " id="projects">
-      <CardDetails className="card border-dark bg-dark" sx={{ maxWidth: 345 }}>
-        <CardActionArea>
-          <CardMedia
-            component="img"
-            height="140"
-            image={props.image}
-            alt={props.alt}
-          />
-          <CardContentDetails></CardContentDetails>
-        </CardActionArea>
-        <CardActions className="d-flex justify-content-center">
-          <Button size="small" variant="contained" color="secondary">
-            Source Code
-          </Button>
-        </CardActions>
-      </CardDetails>
+      <div className="container">
+        {" "}
+        <CardDetails
+          className="card border-dark bg-dark"
+          sx={{ maxWidth: 345 }}
+        >
+          <CardActionArea>
+            <CardMedia
+              component="img"
+              height="140"
+              image={props.image}
+              alt={props.alt}
+            />
+            <CardContentDetails></CardContentDetails>
+          </CardActionArea>
+          <CardActions className="d-flex justify-content-center">
+            <Button size="small" variant="contained" color="secondary">
+              Source Code
+            </Button>
+          </CardActions>
+        </CardDetails>
+      </div>
     </section>
   );
 }

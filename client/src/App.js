@@ -1,7 +1,9 @@
 import Navbar from "./Components/Navbar";
 import Showcase from "./Components/Showcase";
 import Card from "./Components/Cards/Card";
+import About from "./Components/AboutCards/About";
 import placeHolder from "./Components/images/placeholder.svg";
+import "./Components/App.css";
 
 function App() {
   const cardInfo = [
@@ -15,7 +17,7 @@ function App() {
     <div>
       <Navbar />
       <Showcase />
-      <div className="container">
+      <div className="container-fluid">
         <div className="row row-cols-1 row-cols-md-3 g-3">
           <div className="col">
             <Card image={cardInfo[0].image} alt={cardInfo[0].alt} />
@@ -28,6 +30,7 @@ function App() {
           </div>
         </div>
       </div>
+      <About />
     </div>
   );
 }
