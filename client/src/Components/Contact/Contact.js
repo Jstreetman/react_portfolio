@@ -11,14 +11,19 @@ function Contact() {
     // Get the input element by its ID
     var numberInput = document.getElementById("number");
     // Add an event listener to the input element
-    numberInput.addEventListener("input", function () {
-      // Remove any non-numeric characters
-      this.value = this.value.replace(/[^0-9]/g, "");
+    numberInput.addEventListener("input", function (e) {
+      console.log("Input event fired. Current value: ", e.target.value);
+
+      const sanitizedValue = e.target.value.replace(/[^0-9]/);
+
+      // Update the input value with the sanitized value
+      // e.target.value = sanitizedValue;
 
       // Limit the input to a maximum of 10 characters
-      if (this.value.length > 10) {
-        this.value = this.value.slice(0, 10);
+      if (sanitizedValue.length > 10) {
+        e.target.value = sanitizedValue.slice(0, 10);
       }
+      console.log("Final value: ", e.target.value);
     });
     textArea.addEventListener("input", () => {
       const currentChars = textArea.value.length;
@@ -29,7 +34,6 @@ function Contact() {
       }
     });
   }, []);
-
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -37,11 +41,6 @@ function Contact() {
     message: "",
   });
   const [message, setMessage] = useState("");
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -68,6 +67,10 @@ function Contact() {
     } catch (error) {
       console.error("error:", error);
     }
+  };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   return (
