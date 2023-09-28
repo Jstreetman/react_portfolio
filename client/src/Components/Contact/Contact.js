@@ -14,10 +14,9 @@ function Contact() {
     numberInput.addEventListener("input", function (e) {
       console.log("Input event fired. Current value: ", e.target.value);
 
-      const sanitizedValue = e.target.value.replace(/[^0-9]/);
+      const sanitizedValue = e.target.value.replace(/[^0-9]/, "");
 
       // Update the input value with the sanitized value
-      // e.target.value = sanitizedValue;
 
       // Limit the input to a maximum of 10 characters
       if (sanitizedValue.length > 10) {
@@ -34,6 +33,7 @@ function Contact() {
       }
     });
   }, []);
+
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -42,15 +42,29 @@ function Contact() {
   });
   const [message, setMessage] = useState("");
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("/api/admin/contact", formData, {
-        headers: {
-          "Content-Type": "application/json",
+      const response = await axios.post(
+        "/api/admin/contact",
+        {
+          username: formData.username,
+          email: formData.email,
+          number: formData.number,
+          message: formData.message,
         },
-      });
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (response.status === 201) {
         setMessage("Sent!");
@@ -68,79 +82,73 @@ function Contact() {
       console.error("error:", error);
     }
   };
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
 
   return (
     <section className="p-5" id="contact">
       <div className="container">
-        <Card className="bg-dark ">
+        <Card className="bg-dark">
           <Header title="Contact" className="text-center text-light" />
         </Card>
 
-        <form className="p-5 card">
-          <form onSubmit={handleSubmit} error={!!message}>
-            <TextField
-              type="text"
-              color="primary"
-              label="Name"
-              fullWidth
-              onChange={handleChange}
-              name="username"
-              value={formData.username}
-              required
-            />
-            <TextField
-              className="mt-3"
-              type="email"
-              onChange={handleChange}
-              value={formData.email}
-              label="Email"
-              fullWidth
-              name="email"
-              required
-            />
-            <TextField
-              className="mt-3"
-              type="number"
-              label="Number"
-              onChange={handleChange}
-              value={formData.number}
-              name="number"
-              id="number"
-              fullWidth
-              required
-            />
+        <form className="p-5 card" onSubmit={handleSubmit} error={!!message}>
+          <TextField
+            type="text"
+            color="primary"
+            label="Name"
+            fullWidth
+            onChange={handleChange}
+            name="username"
+            value={formData.username}
+            required
+          />
+          <TextField
+            className="mt-3"
+            type="email"
+            onChange={handleChange}
+            value={formData.email}
+            label="Email"
+            fullWidth
+            name="email"
+            required
+          />
+          <TextField
+            className="mt-3"
+            type="number"
+            label="Number"
+            onChange={handleChange}
+            value={formData.number}
+            name="number"
+            id="number"
+            fullWidth
+            required
+          />
 
-            <TextField
-              className="mt-3  border-dark"
-              type="text"
-              color="primary"
-              multiline
-              rows={4}
-              id="message"
-              onChange={handleChange}
-              value={formData.message}
-              name="message"
-              label="Message"
-              placeholder="Message..."
-              fullWidth
-              variant="outlined"
-              required
-            />
-            <Typography id="charCount">0 / 500</Typography>
-            <Button
-              className="btn mt-3 bg-dark text-light container-fluid"
-              type="submit"
-              variant="contained"
-            >
-              Submit
-            </Button>
-          </form>
-          {message && <Typography color="error">{message}</Typography>}
+          <TextField
+            className="mt-3 border-dark"
+            type="text"
+            color="primary"
+            multiline
+            rows={4}
+            id="message"
+            onChange={handleChange}
+            value={formData.message}
+            name="message"
+            label="Message"
+            placeholder="Message..."
+            fullWidth
+            variant="outlined"
+            required
+          />
+          <Typography id="charCount">0 / 500</Typography>
+          <Button
+            className="btn mt-3 bg-dark text-light container-fluid"
+            type="submit"
+            variant="contained"
+          >
+            Submit
+          </Button>
         </form>
+        {message && <Typography color="error">{message}</Typography>}
       </div>
     </section>
   );

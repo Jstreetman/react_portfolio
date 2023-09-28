@@ -1,5 +1,4 @@
 const express = require("express");
-const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const config = require("./config/config");
@@ -12,13 +11,23 @@ mongoose.Promise = global.Promise;
 mongoose.connect(config.db);
 let db = mongoose.connection;
 
-db.on("open", () => {
-  console.log("Connected to database");
+mongoose.connect(config.db, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+mongoose.connection.once("open", (err) => {
+  if (err) {
+    console.error("Database connection error:", err);
+  } else {
+    console.log("Connected to the database");
+  }
 });
 
 db.on("error", (err) => {
   console.log(`Database error: ${err}`);
 });
+const app = express();
 
 app.use(express.static("public"));
 
