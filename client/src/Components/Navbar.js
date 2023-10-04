@@ -31,7 +31,7 @@ function Navbar() {
           </Typography>
           <Hidden smDown>
             {/* Render these buttons on larger screens */}
-            <Button color="inherit" href="#">
+            <Button color="inherit" href="/">
               Home
             </Button>
             <Button color="inherit" href="#projects">
