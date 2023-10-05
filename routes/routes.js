@@ -122,6 +122,18 @@ router.post(
   }
 );
 
+router.get("/contact", requireLogin, async (req, res) => {
+  try {
+    //fetch contacts from database
+    const contacts = await Contact.find();
+
+    res.status(200).json(contacts);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 router.post("/contact", async (req, res) => {
   try {
     const { username, email, number, message } = req.body;

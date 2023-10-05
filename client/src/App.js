@@ -5,6 +5,7 @@ import About from "./Components/AboutCards/About";
 import Contact from "./Components/Contact/Contact";
 import placeHolder from "./Components/images/placeholder.svg";
 import "./Components/App.css";
+import Footer from "./Components/Footer";
 
 function App() {
   const cardInfo = [
@@ -33,6 +34,7 @@ function App() {
       </div>
       <About />
       <Contact />
+      <Footer />
     </div>
   );
 }
