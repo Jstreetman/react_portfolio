@@ -1,9 +1,18 @@
+import React, { useState } from "react";
 import Navbar from "../Navbar";
 import { Card, TextField, Button, Typography } from "@mui/material";
 import Header from "@mui/material/CardHeader";
 import "bootstrap/dist/css/bootstrap.css";
 
 function Register() {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const handleChange = () => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
   return (
     <div>
       <Navbar />
@@ -15,13 +24,14 @@ function Register() {
               className="text-light text-center"
             ></Header>
           </Card>
-          <form className="p-5 card">
+          <form className="p-5 card" onSubmit={handleSubmit}>
             <TextField
               type="email"
               color="primary"
               label="Email"
               fullWidth
               name="email"
+              onChange={handleChange}
               required
             ></TextField>
             <TextField
@@ -29,6 +39,7 @@ function Register() {
               type="password"
               required
               fullWidth
+              onChange={handleChange}
               color="primary"
               label="Password"
             ></TextField>
