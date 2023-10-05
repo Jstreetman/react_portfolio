@@ -6,6 +6,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import theme from "./Components/Themes/Themes";
 import Register from "./Components/Admin/Register";
 import Login from "./Components/Admin/Login";
+import Panel from "./Components/Admin/Panel";
 
 const router = createBrowserRouter([
   {
@@ -15,7 +16,7 @@ const router = createBrowserRouter([
 
   {
     path: "/adminpanel",
-    element: "",
+    element: <Panel />,
   },
 
   {
@@ -25,6 +26,11 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+  },
+
+  {
+    path: "/logout",
+    element: <Login />,
   },
 ]);
 

@@ -9,7 +9,7 @@ import Hidden from "@mui/material/Hidden";
 
 import "bootstrap/dist/css/bootstrap.css";
 
-function Navbar() {
+function AdminNavbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => {
@@ -29,17 +29,8 @@ function Navbar() {
           </Typography>
           <Hidden smDown>
             {/* Render these buttons on larger screens */}
-            <Button color="inherit" href="/">
-              Home
-            </Button>
-            <Button color="inherit" href="#projects">
-              Projects
-            </Button>
-            <Button color="inherit" href="#about">
-              About
-            </Button>
-            <Button color="inherit" href="#contact">
-              Contact
+            <Button color="inherit" href="/logout">
+              Logout
             </Button>
           </Hidden>
           <Hidden mdUp>
@@ -70,35 +61,11 @@ function Navbar() {
           >
             <Button
               color="inherit"
-              href="#"
+              href="/logout"
               fullWidth
               onClick={closeMobileMenu}
             >
-              Home
-            </Button>
-            <Button
-              color="inherit"
-              href="#projects"
-              fullWidth
-              onClick={closeMobileMenu}
-            >
-              Projects
-            </Button>
-            <Button
-              color="inherit"
-              href="#about"
-              fullWidth
-              onClick={closeMobileMenu}
-            >
-              About
-            </Button>
-            <Button
-              color="inherit"
-              href="#contact"
-              fullWidth
-              onClick={closeMobileMenu}
-            >
-              Contact
+              Logout
             </Button>
           </div>
         )}
@@ -107,4 +74,4 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export default AdminNavbar;

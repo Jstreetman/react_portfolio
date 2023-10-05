@@ -6,7 +6,6 @@ const jwt = require("jsonwebtoken");
 const { body, validationResult } = require("express-validator");
 const Contact = require("../models/contactModel");
 const Register = require("../models/registerModel");
-const app = express();
 
 //express-session
 router.use(
@@ -144,10 +143,22 @@ router.post("/contact", async (req, res) => {
   }
 });
 
-app.get("/adminpanel", (req, res) => {
+router.get("/adminpanel", (req, res) => {
   if (!req.session.user) {
     res.redirect("/login");
   }
+});
+
+router.get("/logout", (req, res) => {
+  // Destroy the session
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Error destroying session:", err);
+    } else {
+      // Redirect to a login page or any other appropriate page after logout
+      res.redirect("/login"); // Change the route as needed
+    }
+  });
 });
 
 module.exports = router;
