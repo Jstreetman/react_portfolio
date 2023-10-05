@@ -4,7 +4,7 @@ const path = require("path");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const config = require("./config/config");
-const contactRoutes = require("./routes/contact");
+const contactRoutes = require("./routes/routes");
 const mongoose = require("mongoose");
 const port = 3000;
 

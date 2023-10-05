@@ -12,10 +12,6 @@ function Register() {
   });
   const [message, setMessage] = useState("");
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -23,6 +19,7 @@ function Register() {
       const response = await axios.post(
         "/api/admin/signup",
         {
+          username: formData.username,
           email: formData.email,
           password: formData.password,
         },
@@ -37,6 +34,7 @@ function Register() {
         setMessage("Sent!");
         // Clear form fields if registration is successful
         setFormData({
+          username: "",
           email: "",
           password: "",
         });
@@ -47,6 +45,12 @@ function Register() {
       console.error("error:", error);
     }
   };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
   return (
     <div>
       <Navbar />
@@ -60,11 +64,22 @@ function Register() {
           </Card>
           <form className="p-5 card" onSubmit={handleSubmit}>
             <TextField
+              type="text"
+              color="primary"
+              label="Create Username..."
+              fullWidth
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              required
+            ></TextField>
+            <TextField
               type="email"
               color="primary"
-              label="Email"
+              label="Email..."
               fullWidth
               name="email"
+              className="mt-3"
               value={formData.email}
               onChange={handleChange}
               required
@@ -74,10 +89,11 @@ function Register() {
               type="password"
               required
               fullWidth
+              name="password"
               value={formData.password}
               onChange={handleChange}
               color="primary"
-              label="Password"
+              label="Create Password..."
             ></TextField>
 
             <Button
