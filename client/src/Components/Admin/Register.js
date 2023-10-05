@@ -3,15 +3,49 @@ import Navbar from "../Navbar";
 import { Card, TextField, Button, Typography } from "@mui/material";
 import Header from "@mui/material/CardHeader";
 import "bootstrap/dist/css/bootstrap.css";
+import axios from "axios";
 
 function Register() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const handleChange = () => {};
-  const handleSubmit = (e) => {
+  const [message, setMessage] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    try {
+      const response = await axios.post(
+        "/api/admin/signup",
+        {
+          email: formData.email,
+          password: formData.password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 201) {
+        setMessage("Sent!");
+        // Clear form fields if registration is successful
+        setFormData({
+          email: "",
+          password: "",
+        });
+      } else {
+        setMessage(response.data.message);
+      }
+    } catch (error) {
+      console.error("error:", error);
+    }
   };
   return (
     <div>
@@ -31,6 +65,7 @@ function Register() {
               label="Email"
               fullWidth
               name="email"
+              value={formData.email}
               onChange={handleChange}
               required
             ></TextField>
@@ -39,6 +74,7 @@ function Register() {
               type="password"
               required
               fullWidth
+              value={formData.password}
               onChange={handleChange}
               color="primary"
               label="Password"
