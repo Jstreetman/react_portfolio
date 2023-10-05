@@ -1,4 +1,6 @@
 const express = require("express");
+const app = express();
+const path = require("path");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const config = require("./config/config");
@@ -27,9 +29,15 @@ mongoose.connection.once("open", (err) => {
 db.on("error", (err) => {
   console.log(`Database error: ${err}`);
 });
-const app = express();
+// const app = express();
 
-app.use(express.static("public"));
+// Serve static files from the build directory
+app.use(express.static(path.join(__dirname, "public")));
+
+// Handle all requests by serving the index.html
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 
 // Set body parser middleware
 app.use(bodyParser.json());
