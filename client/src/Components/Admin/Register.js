@@ -96,11 +96,7 @@ function Register() {
               label="Create Password..."
             ></TextField>
 
-            <Button
-              className="btn mt-3 bg-dark text-light container-fluid"
-              type="submit"
-              variant="contained"
-            >
+            <Button type="submit" variant="contained" className="mt-3">
               Register
             </Button>
           </form>
