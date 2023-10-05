@@ -17,6 +17,17 @@ router.use(
   })
 );
 
+const requireLogin = (req, res, next) => {
+  if (req.session.user) {
+    //if user is logged in proceed to next middleware
+    next();
+  } else {
+    res.redirect("/login");
+  }
+};
+
+router.get("/adminpanel", requireLogin);
+
 router.post(
   "/signup",
   [
@@ -69,6 +80,49 @@ router.post(
   }
 );
 
+router.post(
+  "/signin",
+  [
+    body("email").isEmail().withMessage("Invalid Email..."),
+    body("password").notEmpty().withMessage("Password is required..."),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array });
+    }
+    const { email, password } = req.body;
+
+    try {
+      //check if email exists in the database
+
+      const user = await Register.findOne({ email });
+
+      if (!user) {
+        return res.status(401).json({ message: "Invalid credentials" });
+      }
+
+      //make sure the password is valid
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+
+      if (!isPasswordValid) {
+        return res.status(401).json({ message: "Invalid credentials" });
+      }
+
+      //if all is valid proceed
+      req.session.user = user;
+      req.session.username = user.username;
+      req.session.email = user.email;
+
+      res.status(200).json({ message: "Login Successful", user });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Server error..." });
+    }
+  }
+);
+
 router.post("/contact", async (req, res) => {
   try {
     const { username, email, number, message } = req.body;
@@ -87,6 +141,12 @@ router.post("/contact", async (req, res) => {
     console.error("Error saving contact:", error);
 
     res.status(500).json({ message: "Server Error..." });
+  }
+});
+
+app.get("/adminpanel", (req, res) => {
+  if (!req.session.user) {
+    res.redirect("/login");
   }
 });
 

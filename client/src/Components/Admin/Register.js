@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../Navbar";
 import { Card, TextField, Button, Typography } from "@mui/material";
 import Header from "@mui/material/CardHeader";
@@ -11,6 +12,7 @@ function Register() {
     password: "",
   });
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,6 +40,10 @@ function Register() {
           email: "",
           password: "",
         });
+
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
       } else {
         setMessage(response.data.message);
       }
