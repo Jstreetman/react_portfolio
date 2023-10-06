@@ -3,14 +3,16 @@ const router = express.Router();
 const session = require("express-session");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const cors = require("cors");
+
 const { body, validationResult } = require("express-validator");
 const Contact = require("../models/contactModel");
 const Register = require("../models/registerModel");
 
-//express-session
+// express-session
 router.use(
   session({
-    secret: "SpArKs", //create a secret key
+    secret: "your key here", // create a secret key
     resave: false,
     saveUninitialized: true,
   })
@@ -18,12 +20,16 @@ router.use(
 
 const requireLogin = (req, res, next) => {
   if (req.session.user) {
-    //if user is logged in proceed to next middleware
+    // if the user is logged in, proceed to the next middleware
     next();
   } else {
     res.redirect("/login");
   }
 };
+
+if (process.env.CORS) {
+  router.use(cors());
+}
 
 router.get("/adminpanel", requireLogin);
 
@@ -39,18 +45,18 @@ router.post(
     body("email").isEmail().withMessage("Invalid email address"),
   ],
   async (req, res) => {
-    //checking for validation errors
+    // checking for validation errors
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    //Extracting data from the form request body
+    // Extracting data from the form request body
     const { username, email, password } = req.body;
 
     try {
-      // checking if user is already registered
+      // checking if the user is already registered
 
       const existingUser = await Register.findOne({ email });
 
@@ -58,17 +64,17 @@ router.post(
         return res.status(400).json({ message: "User already registered..." });
       }
 
-      //Hashing the password for security purposes
+      // Hashing the password for security purposes
       const hashbrownPassword = await bcrypt.hash(password, 10);
 
-      //Creating the user
+      // Creating the user
       const newAdministrator = new Register({
         username,
         email,
         password: hashbrownPassword,
       });
 
-      //saving info to database
+      // saving info to the database
       await newAdministrator.save();
 
       res.status(201).json({ message: "Success" });
@@ -89,12 +95,12 @@ router.post(
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array });
+      return res.status(400).json({ errors: errors.array() });
     }
     const { email, password } = req.body;
 
     try {
-      //check if email exists in the database
+      // check if email exists in the database
 
       const user = await Register.findOne({ email });
 
@@ -102,14 +108,14 @@ router.post(
         return res.status(401).json({ message: "Invalid credentials" });
       }
 
-      //make sure the password is valid
+      // make sure the password is valid
       const isPasswordValid = await bcrypt.compare(password, user.password);
 
       if (!isPasswordValid) {
         return res.status(401).json({ message: "Invalid credentials" });
       }
 
-      //if all is valid proceed
+      // if all is valid proceed
       req.session.user = user;
       req.session.username = user.username;
       req.session.email = user.email;
@@ -122,9 +128,9 @@ router.post(
   }
 );
 
-router.get("/contact", requireLogin, async (req, res) => {
+router.get("/posts", requireLogin, async (req, res) => {
   try {
-    //fetch contacts from database
+    // fetch contacts from the database
     const contacts = await Contact.find();
 
     res.status(200).json(contacts);
@@ -134,7 +140,7 @@ router.get("/contact", requireLogin, async (req, res) => {
   }
 });
 
-router.post("/contact", async (req, res) => {
+router.post("/create", async (req, res) => {
   try {
     const { username, email, number, message } = req.body;
 
@@ -155,9 +161,28 @@ router.post("/contact", async (req, res) => {
   }
 });
 
-router.get("/adminpanel", (req, res) => {
-  if (!req.session.user) {
-    res.redirect("/login");
+router.delete("/posts/:postId", requireLogin, async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const username = req.session.username;
+    const email = req.session.email;
+
+    console.log("Deleting post with ID:", postId);
+
+    // Check if the post with the given postId exists
+    const post = await Contact.findById(postId);
+
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    // Delete the post
+    await Contact.deleteOne({ _id: postId });
+
+    res.status(200).json({ message: "Post deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
   }
 });
 

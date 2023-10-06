@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../Navbar";
 import { Card, TextField, Button, Typography } from "@mui/material";
 import Header from "@mui/material/CardHeader";
+import AdminFooter from "./AdminFooter";
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
 
@@ -19,7 +20,7 @@ function Register() {
 
     try {
       const response = await axios.post(
-        "/api/admin/signup",
+        "/api/users/signup",
         {
           username: formData.username,
           email: formData.email,
@@ -108,6 +109,8 @@ function Register() {
           </form>
         </div>
       </section>
+
+      <AdminFooter />
     </div>
   );
 }

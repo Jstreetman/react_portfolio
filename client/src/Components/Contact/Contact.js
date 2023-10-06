@@ -52,7 +52,7 @@ function Contact() {
 
     try {
       const response = await axios.post(
-        "/api/admin/contact",
+        "/api/users/create",
         {
           username: formData.username,
           email: formData.email,

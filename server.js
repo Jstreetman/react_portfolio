@@ -1,5 +1,4 @@
 const express = require("express");
-const app = express();
 const path = require("path");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -29,29 +28,27 @@ mongoose.connection.once("open", (err) => {
 db.on("error", (err) => {
   console.log(`Database error: ${err}`);
 });
-// const app = express();
 
-// Serve static files from the build directory
+const app = express();
+
 app.use(express.static(path.join(__dirname, "public")));
-
-// Handle all requests by serving the index.html
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
-
-// Set body parser middleware
 app.use(bodyParser.json());
 
 if (process.env.CORS) {
   app.use(cors());
 }
 
+app.use("/api/users", contactRoutes); // Use /api prefix for API routes
+
+// Define a catch-all route for non-API routes to serve the frontend
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
 app.use((err, req, res, next) => {
   if (res.headersSent) return next(err);
   res.status(400).json({ err: err });
 });
-
-app.use("/api/admin", contactRoutes);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

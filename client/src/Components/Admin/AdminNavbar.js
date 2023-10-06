@@ -6,11 +6,14 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Hidden from "@mui/material/Hidden";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.css";
 
 function AdminNavbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -18,6 +21,21 @@ function AdminNavbar() {
 
   const closeMobileMenu = () => {
     setMobileMenuOpen(false);
+  };
+
+  const handleLogout = async () => {
+    try {
+      // Send a request to the server to destroy the session
+      await axios.get("/api/users/logout");
+
+      // Remove any local storage items or tokens related to authentication
+      localStorage.removeItem("your key here");
+
+      // Redirect to the login page
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
   };
 
   return (
@@ -29,7 +47,7 @@ function AdminNavbar() {
           </Typography>
           <Hidden smDown>
             {/* Render these buttons on larger screens */}
-            <Button color="inherit" href="/logout">
+            <Button color="inherit" onClick={handleLogout}>
               Logout
             </Button>
           </Hidden>

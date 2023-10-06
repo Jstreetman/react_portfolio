@@ -4,6 +4,7 @@ import axios from "axios";
 import Navbar from "../Navbar";
 import { Card, TextField, Button } from "@mui/material";
 import Header from "@mui/material/CardHeader";
+import AdminFooter from "./AdminFooter";
 import "bootstrap/dist/css/bootstrap.css";
 
 function Login() {
@@ -23,7 +24,7 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.post("/api/admin/signin", formData, {
+      const response = await axios.post("/api/users/signin", formData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -84,6 +85,7 @@ function Login() {
           </form>
         </div>
       </section>
+      <AdminFooter />
     </div>
   );
 }
