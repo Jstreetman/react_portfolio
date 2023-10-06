@@ -9,11 +9,11 @@ REST API was implemented on the backend. Material Ui React was used on the front
 ![MongoDB Version](https://img.shields.io/badge/mongodb-v7+-yellowgreen.svg)
 ![Mongoose Version](https://img.shields.io/badge/mongoose-v7+-red.svg)
 
-![LANDING PAGE] (landing.jpeg)
-![CONTACT PAGE] (contact.jpeg)
-![REGISTER PAGE] (register.jpeg)
-![LOGIN PAGE] (login.jpeg)
-![ADMIN PAGE] (adminpanel.jpeg)
+![LANDING PAGE](landing.jpeg)
+![CONTACT PAGE](contact.jpeg)
+![REGISTER PAGE](register.jpeg)
+![LOGIN PAGE](login.jpeg)
+![ADMIN PAGE](adminpanel.jpeg)
 
 ## Intructions
 
