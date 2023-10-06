@@ -23,7 +23,7 @@ Fork, then download or clone the repo.
 git clone https://github.com/<your-user-name>/react_portfolio.git
 ```
 
-The _config_ folder contains a file named _db.js_. Before running locally, change the value of `db` as seen in the code below. _Make sure MongoDB service is running._
+The _config_ folder contains a file named _config.js_. Before running locally, change the value of `db` as seen in the code below. _Make sure MongoDB service is running._
 
 ```js
 module.exports = {
