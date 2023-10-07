@@ -64,7 +64,7 @@ npm install
 Run the _development server_ for React.
 
 ```bash
-REACT_APP_API_URL=http://localhost:3000 npm start
+REACT_APP_API_URL=http://localhost:3001 npm start
 ```
 
 View [http://localhost:3001](http://localhost:3001) on the browser.
